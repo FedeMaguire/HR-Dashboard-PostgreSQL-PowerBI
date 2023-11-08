@@ -1,4 +1,4 @@
-# HR-Dashboard-PostgreSQL-PowerBI
+# :bar_chart::chart_with_upwards_trend: HR-Dashboard-PostgreSQL-PowerBI
 
 ![image](https://github.com/FedeMaguire/HR-Dashboard-PostgreSQL-PowerBI/blob/main/Screenshot%202023-11-06%20150519.png?raw=true)
 ![image](https://github.com/FedeMaguire/HR-Dashboard-PostgreSQL-PowerBI/blob/main/Screenshot%202023-11-06%20150535.png?raw=true)
