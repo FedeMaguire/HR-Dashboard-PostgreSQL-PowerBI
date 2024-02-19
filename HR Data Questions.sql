@@ -4,7 +4,7 @@
 
 SELECT gender, COUNT(*) AS count
 FROM hr
-WHERE age >= 18 AND termdate ISNULL
+WHERE termdate ISNULL
 GROUP BY gender;
 
 -- 2. What is the race/ethnicity breakdown of employees in the company?
@@ -28,7 +28,7 @@ SELECT
 	END AS age_group,
 	COUNT(*) as count
 FROM hr
-WHERE age>=18 AND termdate ISNULL
+WHERE termdate ISNULL
 GROUP BY age_group
 ORDER BY age_group;
 
@@ -43,7 +43,7 @@ SELECT
 	END AS age_group, gender,
 	COUNT(*) as count
 FROM hr
-WHERE age>=18 AND termdate ISNULL
+WHERE termdate ISNULL
 GROUP BY age_group, gender
 ORDER BY age_group, gender;
 
@@ -51,18 +51,21 @@ ORDER BY age_group, gender;
 
 SELECT location, COUNT(*) AS count
 FROM hr
-WHERE age >= 18 AND termdate ISNULL
+WHERE termdate ISNULL
 GROUP BY location
 ORDER BY location;
 
 -- 5. What is the average length of employment for employees who have been terminated?
 
+SELECT ROUND(AVG(termdate - hire_date)/365,1)
+FROM hr
+WHERE termdate IS NOT NULL;
 
--- 6. How does the gender distribution vary across departments and job titles?
+-- 6. How does the gender distribution vary across departments?
 
 SELECT department, gender, COUNT(*) AS count
 FROM hr
-WHERE age >= 18 AND termdate ISNULL
+WHERE termdate ISNULL
 GROUP BY department, gender
 ORDER BY department;
 
@@ -70,7 +73,7 @@ ORDER BY department;
 
 SELECT jobtitle, COUNT(*) AS count
 FROM hr
-WHERE age >= 18 AND termdate ISNULL
+WHERE termdate ISNULL
 GROUP BY jobtitle
 ORDER BY jobtitle DESC;
 
@@ -85,7 +88,6 @@ FROM (
 	COUNT(*) AS total_count,
 	SUM(CASE WHEN termdate IS NOT NULL THEN 1 ELSE 0 END) AS terminated_count
 	FROM hr
-	WHERE age >=18
 	GROUP BY department
 	) AS subquery
 ORDER BY termination_rate DESC;
@@ -94,7 +96,7 @@ ORDER BY termination_rate DESC;
 
 SELECT location_state, COUNT(*) AS count
 FROM hr
-WHERE age >=18 AND termdate ISNULL
+WHERE termdate ISNULL
 GROUP BY location_state
 ORDER BY count DESC;
 
@@ -112,7 +114,7 @@ FROM(
 	COUNT(*) AS hires,
 	SUM(CASE WHEN termdate IS NOT NULL THEN 1 ELSE 0 END) AS terminations
 	FROM hr
-	WHERE age >=18 AND EXTRACT(YEAR FROM hire_date) < 2024
+	WHERE EXTRACT(YEAR FROM hire_date) < 2024
 	GROUP BY year
 	)AS subquery
 ORDER BY year ASC;
@@ -121,6 +123,6 @@ ORDER BY year ASC;
 
 SELECT department, ROUND(AVG(CAST(DATE_PART('year', age(termdate, hire_date)) AS numeric)),1) AS avg_tenure
 FROM hr
-WHERE termdate <= CURRENT_DATE AND age >= 18 AND termdate IS NOT NULL
+WHERE termdate <= CURRENT_DATE AND termdate IS NOT NULL
 GROUP BY department;
 
